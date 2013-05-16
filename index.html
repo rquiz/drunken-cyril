@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<head>
+<title>CATS &amp; GUNS &amp; CASH</title>
+<style>
+body {
+	padding: 0;
+	margin: 0;
+	background: #333;
+}
+#top {
+	width: 100%;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	font-size: 2em;
+	color: #FFF;
+	background: #000;
+	vertical-align: middle;
+	position: fixed;
+}
+.img-holder {
+	width: 80%;
+	height: auto;
+	margin: 0 auto;
+}
+.img-holder img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+	padding: 20px 0;
+	margin: 0 auto;
+}
+.clr-1 {
+	background-color: rgb(255,0,0);
+}
+.clr-2 {
+	background-color: rgb(255,127,0);
+}
+.clr-3 {
+	background-color: rgb(255,255,0);
+}
+.clr-4 {
+	background-color: rgb(0,255,0);
+}
+.clr-5 {
+	background-color: rgb(0,0,255);
+}
+.clr-6 {
+	background-color: rgb(75,0,130);
+}
+.clr-7 {
+	background-color: rgb(143,0,255);
+}
+.clr-8 {
+	background-color: rgb(0,0,0);
+}
+
+</style>
+</head>
+<body>
+	<div id="top">CATS &amp; GUNS &amp; CASH</div>
+
+<script>
+(function() {
+	var lastTime = 0;
+	var vendors = ['ms', 'moz', 'webkit', 'o'];
+	for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+		window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+		window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
+								   || window[vendors[x]+'CancelRequestAnimationFrame'];
+	}
+
+	if (!window.requestAnimationFrame)
+		window.requestAnimationFrame = function(callback, element) {
+			var currTime = new Date().getTime();
+			var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+			var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+			  timeToCall);
+			lastTime = currTime + timeToCall;
+			return id;
+		};
+
+	if (!window.cancelAnimationFrame)
+		window.cancelAnimationFrame = function(id) {
+			clearTimeout(id);
+		};
+}());
+
+
+	var lastScrollY = 0,
+		ticking = false;
+	var i=0,
+		ii=0;
+
+	var cashcats = [
+			'http://24.media.tumblr.com/tumblr_mavtfqXKyD1qgn992o1_1280.jpg',
+			'http://25.media.tumblr.com/tumblr_m6ka4s9KIN1qgn992o1_1280.jpg',
+			'http://24.media.tumblr.com/tumblr_m9fy3qVTfJ1qgn992o1_1280.jpg',
+			'http://25.media.tumblr.com/tumblr_m4i7twBkut1qgn992o1_1280.jpg',
+			'http://25.media.tumblr.com/tumblr_m0htfbbJ5b1qgn992o1_500.jpg',
+			'http://25.media.tumblr.com/tumblr_lx79488YyK1qgn992o1_1280.jpg',
+			'http://25.media.tumblr.com/tumblr_lw2jog85Ps1qgn992o1_1280.jpg',
+			'http://25.media.tumblr.com/tumblr_ltn1ocdNPx1qgn992o1_1280.jpg',
+			'http://i3.kym-cdn.com/photos/images/newsfeed/000/337/950/8c6.jpg',
+			'http://25.media.tumblr.com/tumblr_mdrl53nGIH1qgn992o1_500.jpg',
+			'http://25.media.tumblr.com/tumblr_mavtfqXKyD1qgn992o1_500.jpg',
+			'http://25.media.tumblr.com/tumblr_m5y0qcLEmG1qgn992o2_500.png',
+			'http://25.media.tumblr.com/tumblr_m2eaaganEB1qgn992o1_500.png',
+			'http://25.media.tumblr.com/tumblr_ls7qmxlrbE1qgn992o1_500.png',
+			'http://25.media.tumblr.com/tumblr_lrdy7z2rvO1qgn992o1_500.jpg',
+			'http://25.media.tumblr.com/tumblr_lp2pyz7ojG1qgn992o1_500.jpg',
+			'http://24.media.tumblr.com/tumblr_lkaehbXMPZ1qgn992o1_500.jpg'
+		];
+
+	/**
+	 * Callback for our scroll event - just
+	 * keeps track of the last scroll value
+	 */
+	function onScroll() {
+		lastScrollY = window.scrollY;
+		requestTick();
+	}
+
+	/**
+	 * Calls rAF if it's not already
+	 * been done already
+	 */
+	function requestTick() {
+	window.console.log('TICKING');
+		if(!ticking) {
+			window.console.log("Not Ticking");
+			requestAnimationFrame(addDomStuffs);
+			ticking = true;
+
+		}
+	}
+
+	window.addEventListener('scroll', onScroll, false);
+
+	/**
+	 * Our animation callback
+	 */
+	function addDomStuffs() {
+		if(ii % 3 === 0) {
+			console.log('adding ...');
+			var div = document.createElement('div'),
+				last = document.body.lastElementChild;
+
+			var img = document.createElement('img');
+			var rndm = Math.floor(Math.random() * 8) + 1;
+
+			var catrndm = Math.floor(Math.random() * cashcats.length) + 1;
+			img.src = cashcats[catrndm];
+
+			div.appendChild(img);
+			div.className = 'img-holder clr-'+rndm;
+			div.id = 'new-cat-' + ii;
+			document.body.insertBefore(div, last);
+
+		}
+		ticking = false;
+
+		ii++;
+
+	}
+	while(i < 800) {
+		addDomStuffs();
+		i++;
+	}
+
+</script>
+</body>
+</html>
